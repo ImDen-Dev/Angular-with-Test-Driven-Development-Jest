@@ -50,11 +50,19 @@
       "<rootDir>/setup-jest.ts"
     ],
     "transform": {
-      "^.+\\.(ts|js|html)$": ["jest-preset-angular", {"stringifyContentPathRegex": "\\.html$"}]
+      "^.+\\.(ts|js|html)$": [
+        "jest-preset-angular",
+        {
+          "stringifyContentPathRegex": "\\.html$"
+        }
+      ]
     },
-    "transformIgnorePatterns": ["node_modules/(?!.*.mjs$)"],
+    "transformIgnorePatterns": [
+      "node_modules/(?!.*.mjs$)"
+    ],
     "testMatch": [
       "**/?(*.)+(jest).ts"
     ],
-    "testEnvironment": "jsdom"}
+    "testEnvironment": "jsdom"
+  }
 }
