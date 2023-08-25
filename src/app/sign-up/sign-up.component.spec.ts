@@ -1,4 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from '@angular/common/http/testing';
 
 import { SignUpComponent } from './sign-up.component';
 
@@ -9,6 +13,7 @@ describe('SignUpComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [SignUpComponent],
+      imports: [HttpClientTestingModule],
     });
     fixture = TestBed.createComponent(SignUpComponent);
     component = fixture.componentInstance;
@@ -110,7 +115,7 @@ describe('SignUpComponent', () => {
     });
 
     it('sends username, email, and password to backend after clicking the button', () => {
-      const spy = spyOn(window, 'fetch');
+      const httpTestingController = TestBed.inject(HttpTestingController);
 
       const signUp = fixture.nativeElement as HTMLElement;
       const usernameInput = signUp.querySelector(
@@ -142,15 +147,15 @@ describe('SignUpComponent', () => {
 
       const button = signUp.querySelector('button');
       button?.click();
-      const args = spy.calls.allArgs()[0];
-      const secondParam = args[1] as RequestInit;
-      expect(secondParam.body).toEqual(
-        JSON.stringify({
-          username: 'User1',
-          email: 'email@email.com',
-          password: 'P4ssword',
-        }),
-      );
+
+      const req = httpTestingController.expectOne('/api/1.0/users');
+      const requestBody = req.request.body;
+
+      expect(requestBody).toEqual({
+        username: 'User1',
+        email: 'email@email.com',
+        password: 'P4ssword',
+      });
 
       expect(button?.disabled).toBeFalsy();
     });
