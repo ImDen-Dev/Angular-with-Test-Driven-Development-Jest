@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/angular';
 import { SignUpComponent } from './sign-up.component';
 import userEvent from '@testing-library/user-event';
+import 'whatwg-fetch';
 
 describe('SignUpComponent', () => {
   describe('Layout', () => {
@@ -67,6 +68,36 @@ describe('SignUpComponent', () => {
 
       const button = screen.getByRole('button', { name: 'Sign Up' });
       expect(button).toBeEnabled();
+    });
+
+    it('sends username, email, and password to backend after clicking the button', async () => {
+      const spy = jest.spyOn(window, 'fetch');
+
+      await render(SignUpComponent);
+
+      const username = screen.getByLabelText('Username');
+      const email = screen.getByLabelText('E-mail');
+      const password = screen.getByLabelText('Password');
+      const passwordRepeat = screen.getByLabelText('Password Repeat');
+
+      await userEvent.type(username, 'User1');
+      await userEvent.type(email, 'email@email.com');
+      await userEvent.type(password, 'P4ssword');
+      await userEvent.type(passwordRepeat, 'P4ssword');
+
+      const button = screen.getByRole('button', { name: 'Sign Up' });
+      await userEvent.click(button);
+
+      const args = spy.mock.calls[0];
+      const secondParam = args[1] as RequestInit;
+
+      expect(secondParam.body).toEqual(
+        JSON.stringify({
+          username: 'User1',
+          email: 'email@email.com',
+          password: 'P4ssword',
+        }),
+      );
     });
   });
 });
