@@ -1,20 +1,50 @@
-<h1>Sign Up</h1>
-<form (submit)="onClickSignUp(); $event.preventDefault()">
-  <label for="username">Username</label>
-  <input id="username" (input)="onChangeUsername($event)" />
+<div class="col-lg-6 offset-lg-3 col-md-8 offset-md-2">
+  <div class="card">
+    <div class="card-header text-center">
+      <h1>Sign Up</h1>
+    </div>
+    <form class="card-body" (submit)="onClickSignUp(); $event.preventDefault()">
+      <div class="mb-3">
+        <label class="form-label" for="username">Username</label>
+        <input
+          class="form-control"
+          id="username"
+          (input)="onChangeUsername($event)"
+        />
+      </div>
 
-  <label for="email">E-mail</label>
-  <input id="email" (input)="onChangeEmail($event)" />
+      <div class="mb-3">
+        <label class="form-label" for="email">E-mail</label>
+        <input
+          class="form-control"
+          id="email"
+          (input)="onChangeEmail($event)"
+        />
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="password">Password</label>
+        <input
+          class="form-control"
+          id="password"
+          type="password"
+          (input)="onChangePassword($event)"
+        />
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="passwordRepeat">Password Repeat</label>
+        <input
+          class="form-control"
+          id="passwordRepeat"
+          type="password"
+          (input)="onChangePasswordRepeat($event)"
+        />
+      </div>
 
-  <label for="password">Password</label>
-  <input id="password" type="password" (input)="onChangePassword($event)" />
-
-  <label for="passwordRepeat">Password Repeat</label>
-  <input
-    id="passwordRepeat"
-    type="password"
-    (input)="onChangePasswordRepeat($event)"
-  />
-
-  <button [disabled]="isDisabled()">Sign Up</button>
-</form>
+      <div class="text-center">
+        <button class="btn btn-primary" [disabled]="isDisabled()">
+          Sign Up
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
